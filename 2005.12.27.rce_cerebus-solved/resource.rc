@@ -1,0 +1,61 @@
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+
+#include "afxres.h"
+
+#undef APSTUDIO_READONLY_SYMBOLS
+
+#ifdef _WIN32
+
+#ifdef APSTUDIO_INVOKED
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    
+
+#endif    
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_UKR)
+#ifdef _WIN32
+
+#pragma code_page(1251)
+#endif 
+
+
+IDD_DIALOG1 DIALOGEX 0, 0, 175, 79
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "..:: CEREBUS ::.."
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         133,IDC_SHOWBMP,"Static",SS_BITMAP,0,0,170,37
+    PUSHBUTTON      "Register",ID_REGISTER,1,64,87,14,BS_FLAT
+    PUSHBUTTON      "About",ID_ABOUT,88,64,87,14,BS_FLAT
+    LTEXT           "Name :",IDC_STATIC,2,40,33,10
+    LTEXT           "Serial  :",IDC_STATIC,2,53,33,10
+    EDITTEXT        IDC_NAME,26,38,148,12,ES_MULTILINE | ES_AUTOHSCROLL 
+    EDITTEXT        IDC_SERIAL,26,51,148,12,ES_MULTILINE | ES_AUTOHSCROLL 
+END
+
+#endif 
+IDB_MAINBMP             BITMAP      "logo.bmp"
+
+#ifndef APSTUDIO_INVOKED
+#endif   
+

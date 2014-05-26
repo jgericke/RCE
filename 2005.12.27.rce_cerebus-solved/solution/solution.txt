@@ -1,0 +1,80 @@
+Target: Cerebus KeygenMe.exe
+Tools: OllyDbg 1.10 XP
+Cracker: Ank83
+
+Step 1: Open target in Olly, search for referenced string to find start of procedure for Check button. You we soon land here: 
+0040321A  |> 891C24         MOV DWORD PTR SS:[ESP],EBX               ; |
+0040321D  |. BA FF000000    MOV EDX,0FF                              ; |
+00403222  |. B9 D0604000    MOV ECX,unpacked.004060D0                ; |
+00403227  |. 895424 0C      MOV DWORD PTR SS:[ESP+C],EDX             ; |
+0040322B  |. B8 E9030000    MOV EAX,3E9                              ; |
+00403230  |. 894C24 08      MOV DWORD PTR SS:[ESP+8],ECX             ; |
+00403234  |. 894424 04      MOV DWORD PTR SS:[ESP+4],EAX             ; |
+00403238  |. E8 13080000    CALL <JMP.&USER32.GetDlgItemTextA>       ; \GetDlgItemTextA					<- Get Name that we entered
+0040323D  |. A3 A8604000    MOV DWORD PTR DS:[4060A8],EAX
+00403242  |. 83EC 10        SUB ESP,10
+00403245  |. 83F8 03        CMP EAX,3											<- compare if name is above 3 chars
+00403248  |. 7E 76          JLE SHORT unpacked.004032C0									<- if not jump to "Your name must be greater than 4 chars" message
+0040324A  |. 83F8 0A        CMP EAX,0A											<- compare if name is less that 10 chars
+0040324D  |. 7E 22          JLE SHORT unpacked.00403271									<- if yes jump the "Your name must be smaller than 10 chars" message and continue with the code
+0040324F  |. B8 60404000    MOV EAX,unpacked.00404060                ;  ASCII "Your name must be smaller than 10 chars"	<- constant string
+00403254  |> 894424 08      MOV DWORD PTR SS:[ESP+8],EAX             ; |
+00403258  |. B8 EA030000    MOV EAX,3EA                              ; |
+0040325D  |. 894424 04      MOV DWORD PTR SS:[ESP+4],EAX             ; |
+00403261  |. 891C24         MOV DWORD PTR SS:[ESP],EBX               ; |
+00403264  |. E8 F7070000    CALL <JMP.&USER32.SetDlgItemTextA>       ; \SetDlgItemTextA					<- setthe serial textbox with above text
+00403269  |. 83EC 0C        SUB ESP,0C
+0040326C  |.^E9 48FFFFFF    JMP unpacked.004031B9
+00403271  |> 891C24         MOV DWORD PTR SS:[ESP],EBX               ; |
+00403274  |. BA D0614000    MOV EDX,unpacked.004061D0                ; |
+00403279  |. B9 EA030000    MOV ECX,3EA                              ; |
+0040327E  |. 895424 08      MOV DWORD PTR SS:[ESP+8],EDX             ; |
+00403282  |. B8 FF000000    MOV EAX,0FF                              ; |
+00403287  |. 894C24 04      MOV DWORD PTR SS:[ESP+4],ECX             ; |
+0040328B  |. 894424 0C      MOV DWORD PTR SS:[ESP+C],EAX             ; |
+0040328F  |. E8 BC070000    CALL <JMP.&USER32.GetDlgItemTextA>       ; \GetDlgItemTextA					<- Get Serial yhat we entered
+00403294  |. 83EC 10        SUB ESP,10
+00403297  |. E8 A4F4FFFF    CALL unpacked.00402740									<- calling procedure that generate the code
+0040329C  |. FEC8           DEC AL
+0040329E  |. 74 27          JE SHORT unpacked.004032C7									<- the good or bad jump
+004032A0  |. B8 40000000    MOV EAX,40
+004032A5  |. BA 21514000    MOV EDX,unpacked.00405121                ;  ASCII "Nope..."					<- constant text
+004032AA  |. 894424 0C      MOV DWORD PTR SS:[ESP+C],EAX
+004032AE  |. B8 00404000    MOV EAX,unpacked.00404000                ;  ASCII "Incorrect, try again"			<- constant text
+004032B3  |. 895424 08      MOV DWORD PTR SS:[ESP+8],EDX
+004032B7  |. 894424 04      MOV DWORD PTR SS:[ESP+4],EAX
+004032BB  |.^E9 2FFFFFFF    JMP unpacked.004031EF									<- PopUp the BadBoy Message
+004032C0  |> B8 A0404000    MOV EAX,unpacked.004040A0                ;  ASCII "Your name must be greater than 4 chars"	<- constant text
+004032C5  |.^EB 8D          JMP SHORT unpacked.00403254									<- Set the Serial text box with above text
+004032C7  |> B9 40000000    MOV ECX,40											<- Start building the GoodBoy Message
+004032CC  |. BB 29514000    MOV EBX,unpacked.00405129                ;  ASCII "Solved!"					<- constant text
+004032D1  |. B8 20404000    MOV EAX,unpacked.00404020                ;  ASCII "That serial is correct! Well done."	<- constant text
+004032D6  |. 894C24 0C      MOV DWORD PTR SS:[ESP+C],ECX
+004032DA  |. 895C24 08      MOV DWORD PTR SS:[ESP+8],EBX
+004032DE  |. 894424 04      MOV DWORD PTR SS:[ESP+4],EAX
+004032E2  \.^E9 08FFFFFF    JMP unpacked.004031EF									<- PopUp the GoodBoy Message
+
+Step 2: Analyzing the procedure for generating the serial:
+The crypto algoritam is one hell of a long one, and it would need a year of time to explain every function. I will only say that the procedure of completing the serial
+is starting at this adress, and it's look like this: 
+0040253C  |> 0FB6542B C8    /MOVZX EDX,BYTE PTR DS:[EBX+EBP-38]      ; |
+00402541  |. 43             |INC EBX                                 ; |
+00402542  |. 88D0           |MOV AL,DL                               ; |
+00402544  |. C0F8 04        |SAR AL,4                                ; |
+00402547  |. 83E2 0F        |AND EDX,0F                              ; |
+0040254A  |. 66:0FBEF0      |MOVSX SI,AL                             ; |
+0040254E  |. 89F0           |MOV EAX,ESI                             ; |
+00402550  |. 04 61          |ADD AL,61                               ; |
+00402552  |. 8881 D0634000  |MOV BYTE PTR DS:[ECX+4063D0],AL         ; |
+00402558  |. 88D0           |MOV AL,DL                               ; |
+0040255A  |. 04 61          |ADD AL,61                               ; |
+0040255C  |. 8881 D1634000  |MOV BYTE PTR DS:[ECX+4063D1],AL         ; |
+00402562  |. 83C1 02        |ADD ECX,2                               ; |
+00402565  |. 83FB 20        |CMP EBX,20                              ; |
+00402568  |.^72 D2          \JB SHORT KeyGen.0040253C                ; |
+Efter that comes the procedures to empty the used registers and hideing the track of genereted serial.
+
+I'm sorry that I was so short but it is imposible to write a good solution, for this long algo, even if we eliminate the junk code !
+
+I dedicate this keygen to my newly born dauther Mila !
+Ank83

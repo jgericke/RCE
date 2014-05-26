@@ -1,0 +1,33 @@
+# Project: Crackme
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = Project1_private.res
+OBJ  = main.o $(RES)
+LINKOBJ  = main.o $(RES)
+LIBS =  -L"C:/I386/Dev-Cpp/lib" -mwindows  
+INCS =  -I"C:/I386/Dev-Cpp/include" 
+CXXINCS =  -I"C:/I386/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/I386/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/I386/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/I386/Dev-Cpp/include/c++/3.4.2"  -I"C:/I386/Dev-Cpp/include" 
+BIN  = crackme.exe
+CXXFLAGS = $(CXXINCS)   -fexpensive-optimizations -O3
+CFLAGS = $(INCS)   -fexpensive-optimizations -O3
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before crackme.exe all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o "crackme.exe" $(LIBS)
+
+main.o: main.c
+	$(CC) -c main.c -o main.o $(CFLAGS)
+
+Project1_private.res: Project1_private.rc resource.rc 
+	$(WINDRES) -i Project1_private.rc --input-format=rc -o Project1_private.res -O coff 

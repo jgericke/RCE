@@ -1,0 +1,245 @@
+Solution for [pALLAs by [_j_]] by Cyclops
+---------------------------------------
+
+Solved a long time ago, but never written tut on that. So here it is:
+
+Load cm to PEiD, apply KANAL.
+Hmm...looks good, Miracl,SHA1,Big numbers :P
+
+Load it to IDA, apply miracl signaures and u will get a neat assembly.
+
+
+
+.text:0040262F                 push    ebx             ; nFileSystemNameSize
+.text:00402630                 push    ebx             ; lpFileSystemNameBuffer
+.text:00402631                 push    ebx             ; lpFileSystemFlags
+.text:00402632                 push    ebx             ; lpMaximumComponentLength
+.text:00402633                 lea     eax, [ebp+VolumeSerialNumber]
+.text:00402639                 push    eax             ; lpVolumeSerialNumber
+.text:0040263A                 push    ebx             ; nVolumeNameSize
+.text:0040263B                 push    ebx             ; lpVolumeNameBuffer
+.text:0040263C                 push    ebx             ; lpRootPathName
+.text:0040263D                 call    ds:GetVolumeInformationA
+.text:00402643                 push    [ebp+VolumeSerialNumber]
+.text:00402649                 push    offset asc_40D0FC ; "%x"
+.text:0040264E                 lea     eax, [ebp+Vol_Info]
+.text:00402654                 push    eax             ; char *
+.text:00402655                 call    _sprintf
+.text:0040265A                 lea     eax, [ebp+var_504]
+.text:00402660                 push    eax
+.text:00402661                 call    SHA1_init
+.text:00402666                 lea     eax, [ebp+Vol_Info]
+.text:0040266C                 push    eax             ; char *
+.text:0040266D                 call    _strlen
+.text:00402672                 push    eax             ; int
+.text:00402673                 lea     eax, [ebp+Vol_Info]
+.text:00402679                 push    eax             ; void *
+.text:0040267A                 lea     eax, [ebp+var_504]
+.text:00402680                 push    eax             ; int
+.text:00402681                 call    SHA1_Process
+.text:00402686                 lea     eax, [ebp+var_504]
+.text:0040268C                 push    eax
+.text:0040268D                 call    SHA1_Final
+.text:00402692                 push    ebx
+.text:00402693                 push    64h
+.text:00402695                 call    _mirsys
+.text:0040269A                 mov     edi, eax
+.text:0040269C                 push    ebx
+.text:0040269D                 call    _mirvar
+.text:004026A2                 mov     [ebp+Big1], eax
+.text:004026A8                 push    ebx
+.text:004026A9                 call    _mirvar
+.text:004026AE                 mov     [ebp+Big2], eax
+.text:004026B4                 push    ebx
+.text:004026B5                 call    _mirvar
+.text:004026BA                 mov     [ebp+Big3], eax
+.text:004026C0                 push    ebx
+.text:004026C1                 call    _mirvar
+.text:004026C6                 mov     esi, eax			;Big4
+.text:004026C8                 push    ebx
+.text:004026C9                 call    _mirvar
+.text:004026CE                 add     esp, 40h
+.text:004026D1                 mov     [ebp+Big5], eax
+.text:004026D7                 push    ebx
+.text:004026D8                 call    _mirvar
+.text:004026DD                 mov     [ebp+Big6], eax
+.text:004026E3                 mov     dword ptr [edi+220h], 10h
+.text:004026ED                 lea     eax, [ebp+var_280]
+.text:004026F3                 push    eax             ; char *
+.text:004026F4                 call    Decode_C
+.text:004026F9                 lea     eax, [ebp+var_280]
+.text:004026FF                 push    eax
+.text:00402700                 push    [ebp+Big1]
+.text:00402706                 call    _cinstr
+.text:0040270B                 lea     eax, [ebp+var_280]
+.text:00402711                 push    eax             ; char *
+.text:00402712                 call    Decode_C
+.text:00402717                 lea     eax, [ebp+var_17C]
+.text:0040271D                 push    eax             ; char *
+.text:0040271E                 call    Decode_C
+.text:00402723                 lea     eax, [ebp+var_17C]
+.text:00402729                 push    eax
+.text:0040272A                 push    [ebp+Big2]
+.text:00402730                 call    _cinstr
+.text:00402735                 lea     eax, [ebp+var_17C]
+.text:0040273B                 push    eax             ; char *
+.text:0040273C                 call    Decode_C
+.text:00402741                 lea     eax, [ebp+var_78]
+.text:00402744                 push    eax             ; char *
+.text:00402745                 call    Decode_C
+.text:0040274A                 lea     eax, [ebp+var_78]
+.text:0040274D                 push    eax
+.text:0040274E                 push    [ebp+Big5]
+.text:00402754                 call    _cinstr
+.text:00402759                 lea     eax, [ebp+var_78]
+.text:0040275C                 push    eax             ; char *
+.text:0040275D                 call    Decode_C
+.text:00402762                 push    esi		;Big4
+.text:00402763                 lea     eax, [ebp+var_4C4]
+.text:00402769                 push    eax
+.text:0040276A                 push    8
+.text:0040276C                 call    _bytes_to_big
+.text:00402771                 add     esp, 40h
+.text:00402774                 push    esi
+.text:00402775                 push    [ebp+Big5]
+.text:0040277B                 push    7
+.text:0040277D                 push    esi		;Big4
+.text:0040277E                 call    _power
+.text:00402783                 add     esp, 10h
+.text:00402786                 push    200h            ; nMaxCount
+.text:0040278B                 lea     eax, [ebp-480h]
+.text:00402791                 push    eax             ; lpString
+.text:00402792                 push    3E9h            ; nIDDlgItem
+.text:00402797                 push    [ebp+hDlg]      ; hDlg
+.text:0040279A                 call    ds:GetDlgItemTextA
+.text:004027A0                 lea     eax, [ebp-480h]
+.text:004027A6                 push    eax
+.text:004027A7                 push    [ebp+Big3]
+.text:004027AD                 call    _cinstr
+.text:004027B2                 push    [ebp+Big6]
+.text:004027B8                 push    [ebp+Big2]
+.text:004027BE                 push    [ebp+Big1]
+.text:004027C4                 push    [ebp+Big3]
+.text:004027CA                 call    _powmod
+.text:004027CF                 push    [ebp+Big6]
+.text:004027D5                 push    esi		;Big4
+.text:004027D6                 call    _compare
+
+Hmm...
+
+we can conclude the assembly as
+
+1.  Get VolumeSerialNumber
+2.  Convert into hex string(sprintf)
+3.  hash=SHA1(string_VolumeSerialNumber);
+4.  Create 6 Big variables
+5.  Decode and read the bignums into variable.
+6.  Convert the hash to bignum Big4(bytes_to_big)
+7.  Big4=(Big4^7)%Big5
+8.  Read the serial
+9.  convert the serial to bignum Big3
+10. Big6=(Big3^Big1)%Big2
+11. compare Big6 and Big4
+
+This looks like RSA, and to code a keygen we have to 
+
+1.  Get VolumeSerialNumber
+2.  Convert into hex string(sprintf)
+3.  hash=SHA1(string_VolumeSerialNumber);
+4.  Convert hash to bignum Big4
+5.  Get the other bignums
+6.  Big4=(Big4^7)%Big5
+7.  Find the prime factors of Big6
+8.  Get the inverse of Big1
+9.  serial=(Big4^inv(Big1))%Big6
+
+Thats all :)
+But we have to get the bignums. We can getit, after it decodes and before they are cinstr ed :)
+So no need to analyse the Decoding routine :D
+Then we have to find the inverse of the Big1 according to Big6.
+And we have to chech that the SHA 1 is standard or not ;)
+
+Lets do it in olly...
+
+Set Bp on the first cinstr and u will find the bignums as these
+
+Big1=2B7893403C69D8FEB1C4A36D219298438722F2CEB82792230A0B9B8F2DD6804DB9E64381AEDC6B070AF501522781368C6D76A176223F98FADBFF5F26B5FBAD814C62143C2A430667CEDDD19C91F20E8EDCAA2A1773F71A18DA3CFAD34B75A623724349417E963347C9971E0EFB6E613691F2715523A53AA7CEC4E970584135F3
+
+Big2=6601E15E4F6C572B0B38EDF792D426BBA6DEDB98D600C5763C5F2123A361F49C0CAEA628887077DE01D1DE826D2496DF38802024BC00A64940C8EAB4F1D860443C8DE0CEB6B7611888F660B022AA32C3450BC2B6E035D6354654E8EF466631F0D180E978DB6960EB4061EAB52D0B281C580B8DA8FE76AB54D5AD85223DBE1449
+
+Big5=920CC8F0512FB63B8C2F89397A129BAA3D663BD1890C8EE23AAC836A316E231B
+
+Hmm...the RSA modulus is 1023 bits and the public exponent e is 1022 bits.
+Finding the prime factor for this is not feasible, unless we have the wiener attack.
+
+Fire up bLaCk-eye's RSA Attacking Tool and set the two parameters for wiener attack.
+Yup!
+
+D=B33F
+P=B648542B1A8AFC15FE8BDC74AE06A44EE641FD6A6F54885B47BE7F92A753D92DD257476836D2FCECD8144A35A22AEE425F23D9EB6E60178D0D6F2E9E4B910BDB
+Q=8F42ADBBB4D8D551631046BDE060C144CA686824EB949D582C0934347FEE00F67A05A93DC95871ECE2167BD82348AA9B0946CC62C6C4396A10399A616EC64BAB
+
+So, we have our private exponent D.
+Now the only problem is the SHA1, lets check if it is standard one or modified.
+
+IV looks standard, lets check if the results frm standard hash and crackme hash is same.
+But the standard result and the cm SHA1 results are different.
+So we have to either rip the routine, or study it to change the std routine.
+
+After some study, i realised that the modification is in expand( eData, xx )
+But i cant correctly figure out what is changed.
+So i ripped the code into asm, compiled in masm and added the obj to the main keygenning routine.
+
+Our KeyGen fuction looks like this
+
+void Gen_Ser(HWND hWnd)
+{
+	unsigned char szVol[10],hash[20];
+	char serial[300];
+	unsigned long vol;
+	miracl *mip;
+	big vol_id,x,n,d;
+	mip=mirsys(0x64,0);
+	vol_id=mirvar(0);
+	x=mirvar(0);
+	d=mirvar(0);
+	n=mirvar(0);
+
+	mip->IOBASE=16;
+	GetVolumeInformation(0,0,0,&vol,0,0,0,0);
+	sprintf(szVol,"%x",vol);
+	mod_SHA(hash,szVol,lstrlen(szVol));		//extern func, add the .obj to project
+
+	bytes_to_big(8,hash,vol_id);
+	cinstr(x,"920CC8F0512FB63B8C2F89397A129BAA3D663BD1890C8EE23AAC836A316E231B");
+	power(vol_id,7,x,vol_id);
+
+	cinstr(n,"6601E15E4F6C572B0B38EDF792D426BBA6DEDB98D600C5763C5F2123A361F49C0CAEA628887077DE01D1DE826D2496DF38802024BC00A64940C8EAB4F1D860443C8DE0CEB6B7611888F660B022AA32C3450BC2B6E035D6354654E8EF466631F0D180E978DB6960EB4061EAB52D0B281C580B8DA8FE76AB54D5AD85223DBE1449");
+	cinstr(d,"B33F");
+	powmod(vol_id,d,n,vol_id);
+	cotstr(vol_id,serial);
+	SetDlgItemText(hWnd,IDC_EDIT1,serial);
+	mirkill(vol_id);
+	mirkill(x);
+	mirkill(d);
+	mirkill(n);
+}
+
+KeyGen is included in the archive. 
+
+**IMPORTANT**
+-------------
+Plz note that the keygen and the keygenme should be in the same volume. i.e, if keygenme is in D:\ the keygen should be in D:\ ,else it will take serial no of residing partition.
+
+
+Thats all!
+
+Cyclops
+-Mera Bharat Mahan
+
+
+
+
+
+
+

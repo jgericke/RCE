@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PALLAs", "pallas.vcproj", "{8765C9AF-6136-4D6A-B3EC-16F0A3A33B0F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{8765C9AF-6136-4D6A-B3EC-16F0A3A33B0F}.Debug.ActiveCfg = Debug|Win32
+		{8765C9AF-6136-4D6A-B3EC-16F0A3A33B0F}.Debug.Build.0 = Debug|Win32
+		{8765C9AF-6136-4D6A-B3EC-16F0A3A33B0F}.Release.ActiveCfg = Release|Win32
+		{8765C9AF-6136-4D6A-B3EC-16F0A3A33B0F}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

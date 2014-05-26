@@ -1,0 +1,73 @@
+#include "../include/resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+
+#include "afxres.h"
+
+#undef APSTUDIO_READONLY_SYMBOLS
+
+#ifdef _WIN32
+
+#ifdef APSTUDIO_INVOKED
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    
+
+#endif    
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_UKR)
+#ifdef _WIN32
+
+#pragma code_page(1251)
+#endif 
+
+IDB_LOGO  BITMAP "rsrc/logo.bmp"
+
+IDD_DLGMAIN DIALOGEX 0, 0, 143, 130
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION ".DEMETEr Keygenme."
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+
+    CONTROL         IDB_LOGO,IDC_STATIC,"STATIC",SS_BITMAP | SS_CENTERIMAGE, 3, 3, 137, 28, WS_EX_STATICEDGE
+    GROUPBOX        "[USER iD: ]",ID_GRPBXA,0,88,142,26
+    EDITTEXT        IDC_SERIAL,3,35,137,50, ES_MULTILINE | WS_VSCROLL
+    EDITTEXT        IDC_UID,3,98,135,13, ES_AUTOHSCROLL 
+    PUSHBUTTON      "Register",ID_REGISTER,0,115,70,14,BS_PUSHBUTTON, WS_EX_CLIENTEDGE
+    PUSHBUTTON      "About",ID_ABOUT,73,115,70,14,BS_PUSHBUTTON, WS_EX_CLIENTEDGE
+
+END
+
+IDD_DLGABOUT DIALOGEX  0, 0, 100, 75
+STYLE  DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION 
+CAPTION "[_j_] Presents: DEMETEr"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+
+    GROUPBOX        "",ID_GRPBXB,0,0,99,59
+    LTEXT           "\t.: About :.\n\nCreate a working keygen to solve this crackme.\n\nProp's to my peepz :P",IDC_STATIC,3,5,90,50
+    DEFPUSHBUTTON   "Back",ID_CLOSE,0,60,101,14,BS_PUSHBUTTON, WS_EX_CLIENTEDGE
+ 
+END
+
+
+#endif 
+#ifndef APSTUDIO_INVOKED
+#endif   
+
